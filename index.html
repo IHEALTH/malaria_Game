@@ -1,0 +1,47 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+         <link rel="stylesheet" href="css/flashcards.css" type="text/css"/>
+    </head>
+    <body>
+        <div>
+            
+            
+            <form  method="get" action="ihealth.html">
+                
+               <div id="language">
+           <div id="play-ny"> chinyanga</div>
+        <div id="play-en">English</div>
+      
+        <div id="lang"></div> 
+      </div>
+            </form>
+        </div>
+        
+      
+        <script src="js/sound.js"></script>
+        <script>
+            
+             this.adventureThemeSound = new GameSound("sound-intro", "audio/nthwalowa.mp3", "auto", true)  ;
+  this.adventureThemeSound.play();
+        
+     
+          
+          
+            document.getElementById("play-ny").addEventListener('click', function(){
+               window.location = "ihealth.html?name=ny"; 
+              
+            }, false);
+              
+            document.getElementById("play-en").addEventListener('click', function(){
+               window.location = "ihealth.html?name=en"; 
+            }, false);
+        </script>
+    </body>
+</html>
