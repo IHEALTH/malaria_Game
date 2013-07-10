@@ -1,0 +1,678 @@
+/*
+ * Copyright (c) 2012, Intel Corporation.
+ *
+ * This program is licensed under the terms and conditions of the 
+ * Apache License, version 2.0.  The full text of the Apache License is at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ */
+
+@font-face {
+    font-family: 'Georgia';
+    font-weight: normal;
+    font-style: normal;
+}
+
+ #playlist,audio{background:#666;width:400px;padding:20px;}
+.active a{color:#5DB0E6;text-decoration:none;}
+li a{color:#eeeedd;background:#333;padding:5px;display:block;}
+li a:hover{text-decoration:none;}
+
+html {
+    width: 0px;
+    height: 0px;
+}
+
+body {
+    -webkit-user-select: none;
+    box-shadow: 5px 5px 20px black;
+    position: relative;
+    width: 1024px;
+    height: 600px;
+    -webkit-box-align: center;
+    -webkit-box-pack: center;
+    display: -webkit-box;
+    background: #000000;
+    overflow: hidden;
+    cursor: default;
+}
+
+#splash-screen{
+    
+    position: absolute;
+    width: 1024px;
+    height: 600px;
+    background-image: url('../images/Background.png');
+    
+   
+}
+ #language{
+    
+    position: absolute;
+    width: 1024px;
+    height: 600px;
+    background-image: url('../images/Background.png');
+    z-index: 4;
+}
+#game-screen {
+   
+    position: absolute;
+    width: 1024px;
+    height: 600px;
+    display: none;
+    background-image: url("../images/Background.png");
+}
+
+
+
+#adventure-ribbon {
+    position: absolute;
+    left: 216px;
+    top: 35px;
+    width: 604px;
+    height: 82px;
+    background-image: url('../images/AdventureRibbon.png');
+    text-align: center;
+    font-family: "Carter One";
+    font-size: 81px;
+    line-height: 82px;
+    color: #ffffff;
+}
+
+#adventure-ribbon-tail {
+    position: absolute;
+    left: 167px;
+    height: 86px;
+    width: 705px;
+    top: 65px;
+    background-image: url("../images/AdventureRibbonTail.png");
+}
+
+#flash-title {
+    position: absolute;
+    left: 237px;
+    top: 155px;
+    width: 551px;
+    height: 197px;
+    background-image: url("../images/FlashTitle.png");
+}
+
+#cards-ribbon {
+  display:none;
+    position: absolute;
+    left: 319px;
+    top: 380px; 
+    width: 354px;
+    height: 82px;
+    background-image: url("../images/CardRibbon.png");
+    text-align: center;
+    font-family: "Georgia";
+    font-size: 83px;
+    color: #ffffff;
+    line-height: 82px;
+}
+
+#cards-ribbon-tail {
+	display:none;
+    position: absolute;
+    left: 268px;
+    top: 410px;
+    width: 455px;
+    height: 86px;
+    background-image: url("../images/CardRibbonTail.png");
+}
+
+#play-button {
+    position: absolute;
+    left: 350px;
+    width: 307px;
+    height: 83px;
+    top: 400px;
+    background-color: #499aff;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 83px;
+    font-family: "Georgia";
+    font-size: 60px;
+    color: #ffffff;
+    display: inline;
+}
+
+
+ #play-en{
+       display: inline;
+    position: absolute;
+    left: 630px;
+    width: 307px;
+    height: 160px;
+   top: 350px;
+    background-color: #499aff;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 83px;
+    font-family: "Georgia";
+    font-size: 60px;
+    color: #ffffff;
+}
+  #play-ny {
+      display: inline;
+    position: absolute;
+    left: 100px;
+    width: 307px;
+   height: 160px;
+    top: 350px;
+    background-color: #499aff;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 83px;
+    font-family: "Georgia";
+    font-size: 60px;
+    color: #ffffff;
+}
+
+#play-button:active, #play-en:active, #play-ny:active {
+    background-color: #314a74;
+}
+
+#nav-pane.animation-open {
+    -webkit-transform: translate(172px,0);
+    position: absolute;
+    left: -180px;
+    height: 600px;
+    width: 205px;
+    cursor: pointer;
+    background-image: url("../images/NavPane.png");
+    -webkit-transition: all 1s ease-in;
+}
+
+#nav-pane.animation-close {
+    -webkit-transform: translate(-180px,0);
+    position: absolute;
+    height: 600px;
+    width: 205px;
+    cursor: pointer;
+    background-image: url("../images/NavPane.png");
+    -webkit-transition: all 1s ease-in;
+}
+
+#nav-pane-tent {
+    position: absolute;
+    left: 50px;
+    top: 10px;
+    width: 79px;
+    height: 62px;
+    background-image: url("../images/NavTent.png");
+}
+
+#scroll-overlay {
+    position: absolute;
+    height: 391px;
+    width: 157px;
+    left: 22px;
+    top: 90px;
+    overflow: hidden;
+}
+
+#scroll-items {
+    position: absolute;
+    cursor: pointer;
+    height: 391px;
+    width: 157px;
+    border-radius: 10px 10px 10px 10px;
+    -webkit-transition: all 1s ease-in-out;
+}
+
+#nav-pane-compass {
+    position: absolute;
+    width: 133px;
+    height: 126px;
+    left: 891px;
+    background-image: url("../images/Compass.png");
+}
+
+#red-deck {
+    position: absolute;
+    left: 7px;
+    top: 40px;
+    width: 150px;
+    height: 89px;
+    background-image: url('../images/NavCardRed.png');
+    z-index: 4;
+    background-repeat:no-repeat;
+}
+
+#green-deck {
+    position: absolute;
+    left: 8px;
+    top: 120px;
+    width: 149px;
+    height: 87px;
+    background-image: url('../images/NavCardGreen.png');
+    z-index: 3;
+    background-repeat:no-repeat;
+}
+
+#yellow-deck {
+    position: absolute;
+    left: 6px;
+    top: 180px;
+    width: 151px;
+    height: 93px;
+    background-image: url("../images/NavCardYellow.png" );
+    z-index: 2;
+    background-repeat:no-repeat;
+}
+
+#blue-deck {
+    position: absolute;
+    left: 8px;
+    top: 260px;
+    width: 149px;
+    height: 84px;
+    background-image: url("../images/NavCardBlue.png");
+    z-index: 1;
+    background-repeat:no-repeat;
+}
+
+#score {
+    position: absolute;
+    width: 170px;
+    height: 54px;
+    top: 505px;
+    font-family: "Carter One";
+    font-size: 35px;
+    color: #ffffff;
+}
+
+#score-text {
+    position: absolute;
+    left: 15px;
+    width: 157px;
+}
+
+#score-number {
+    position: absolute;
+    left: 120px;
+    width: 70px;
+}
+
+#nav-flag {
+    position: absolute;
+    left: 204px;
+    text-indent: 5px;
+    top: 10px;
+    background-image: url("../images/NavFlag.png");
+    text-align: left;
+    width: 260px;
+    height: 66 px;
+    line-height: 66px;
+    font-family: "Georgia";
+    font-size: 41px;
+    color: #ffffff;
+}
+
+#answer {
+    position: absolute;
+    left: 200px;
+    top: 370px;
+    width: 750px;
+    height: 230px;
+    text-align: center;
+    font-family: "Georgia";
+    font-size: 25px;
+    cursor: pointer;
+}
+
+#card-answer ,#clonecard-answer{
+    cursor: pointer;
+    font-family: "Georgia";
+    font-size: 35px;
+    left: 44px;
+    position: absolute;
+    text-align: center;
+    top: 1px;
+    width: 750px;
+    display: inline;
+}
+
+#card-answer1 ,#clonecard-answer1 {
+    cursor: pointer;
+    font-family: "Georgia";
+    font-size: 35px;
+    left: 44px;
+    position: absolute;
+    text-align: center;
+    top: 50px;
+    width: 750px;
+    display: inline;
+}
+#card-answer2 ,#clonecard-answer2 {
+    cursor: pointer;
+    font-family: "Georgia";
+    font-size: 35px;
+   left: 44px;
+    position: absolute;
+    text-align: center;
+    top: -50px;
+    width: 750px;
+    display: inline;
+}
+
+#endgame-prompt  {
+    position: absolute;
+    width: 750px;
+    height: 100px;
+    left: 200px;
+    top: 370px;
+    width: 750px;
+    height: 230px;
+    text-align: center;
+    font-family: "Georgia";
+    font-size: 65px;
+    color: #499aff;
+    cursor: pointer;
+}
+
+#rope-top {
+    position: absolute;
+    top: 211px;
+    left: 890px;
+    width: 134px;
+    height: 78px;
+    background-image: url("../images/RopeTop.png");
+}
+
+#rope-bottom {
+    position: absolute;
+    top: 290px;
+    left: 890px;
+    width: 135px;
+    height: 34px;
+    background-image: url("../images/RopeBottom.png");
+}
+
+#card-stack {
+    position: absolute;
+    left: 118px;
+    top: 60px;
+    width: 860px;
+    height: 509px;
+    background-image: url("../images/CardStack.png");
+}
+
+#card {
+    position: absolute;
+    top: 90px;
+    left: 195px;
+    width: 771px;
+    height: 380px;
+    cursor: pointer;
+    background-image: url("../images/BlankCard.png");
+}
+#card{
+text-align:center;
+font-size:45px;
+padding-top:40px}
+
+#card-graphic {
+    position: relative;
+    margin: 0px auto;
+    background-repeat: no-repeat;
+}
+
+#flip-back {
+    -webkit-transform-origin: 80% 20%;
+    -webkit-transition: all 1s ease-in;
+    -webkit-transform: rotate(-180deg);
+}
+
+#card-flip {
+    -webkit-transform-origin: 80% 20%;
+    -webkit-transition: all 1s ease-in;
+    -webkit-transform: rotate(180deg);
+}
+
+#wrong-button {
+    display: none;
+    position: absolute;
+    top: 120px;
+    left: 100px;
+    width: 105px;
+    height: 105px;
+    background-image: url('../images/CrossButton.png');
+    cursor: pointer;
+}
+
+#wrong-button:active {
+    background-image: url('../images/CrossButtonActive.png');
+}
+#instruction_music{
+  
+    height: 32px;
+    left: 700px;
+    position: absolute;
+    top: -195px;
+    width: 30px;
+}
+.oninstruction_music{
+     background-image: url("../images/micon.png");
+}
+.offinstruction_music{
+     background-image: url('../images/micoff.png');
+     
+}
+.onbackground_music{
+     background-image: url("../images/musicon.png");
+}
+.offbackground_music{
+     background-image: url('../images/musicoff.png');
+     
+}
+#background_music{
+   
+    height: 32px;
+    left: 700px;
+    position: absolute;
+    top: -230px;
+    width: 30px;
+}
+
+#right-button {
+    position: absolute;
+    top: 120px;
+    left: 550px;
+    width: 105px;
+    height: 105px;
+    
+    background-image: url('../images/next.jpg');
+    cursor: pointer;
+}
+
+#right-button:active {
+    background-image: url('../images/next.jpg');
+}
+
+#replay-button {
+    position: absolute;
+    top: 480px;
+    left: 500px;
+    width: 105px;
+    height: 105px;
+    background-image: url('../images/ReplayButton.png');
+    display: none;
+    cursor: pointer;
+}
+
+#replay-button:active {
+    background-image: url('../images/ReplayButtonActive.png');
+}
+
+.star {
+    position: absolute;
+    width: 50px;
+    height: 49px;
+    z-index: 2;
+}
+
+#star1 {
+    top: 130px;
+    left: 220px;
+}
+
+#star2 {
+    top: 130px;
+    left: 340px;
+}
+
+#star3 {
+    top: 130px;
+    left: 460px;
+}
+
+#star4 {
+    top: 130px;
+    left: 580px;
+}
+
+#star5 {
+    top: 130px;
+    left: 700px;
+}
+
+#star6 {
+    top: 190px;
+    left: 220px;
+}
+
+#star7 {
+    top: 190px;
+    left: 340px;
+}
+
+#star8 {
+    top: 190px;
+    left: 460px;
+}
+
+#star9 {
+    top: 190px;
+    left: 580px;
+}
+
+#star10 {	
+    top: 190px;
+    left: 700px;
+}
+
+#star11 {
+    top: 250px;
+    left: 220px;
+}
+
+#star12 {
+    top: 250px;
+    left: 340px;
+}
+
+#star13 {
+    top: 250px;
+    left: 460px;
+}
+
+#star14 {
+    top: 250px;
+    left: 580px;
+}
+#star15 {
+    top: 250px;
+    left: 700px;
+}
+
+#star16 {
+    top: 310px;
+    left: 220px;
+}
+
+#star17{
+    top: 310px;
+    left: 340px;
+}
+
+#star18 {
+    top: 310px;
+    left: 460px;
+}
+#star19 {
+    top: 310px;
+    left: 580px;
+}
+#star20 {
+    top: 310px;
+    left: 700px;
+}
+
+#help-icon {
+    position: absolute;
+    left: 900px;
+    top: 90px;
+    width: 44px;
+    height: 44px;
+    background-image: url('../images/HelpIcon.png');
+    cursor: pointer;
+}
+
+#help-dialog  {
+    position: absolute;
+    left: 195px;
+    top: 90px;
+    width: 771px;
+    height: 380px;
+    display: inline;
+    z-index: 3;
+}
+
+#help-card {
+    position: absolute;
+    width: 771px;
+    height: 380px;
+    background-image: url("../images/BlankCard.png");
+}
+
+#help-text {
+    position: absolute;
+    text-align: center;
+    width: 650px;
+    line-height: 30px;
+    margin: 75px 20px;
+    font-family: "Georgia";
+    font-size: 20px;
+    color:  #5C3317;
+    word-wrap: break-word;
+    height: 230px;
+}
+
+#help-close {
+    position: absolute;
+    text-align: center;
+    width: 40px;
+    line-height: 41px;
+    left: 710px;
+    top: 15px;
+    font-family: "Georgia";
+    font-size: 41px;
+    color:  #5C3317;
+    cursor: pointer;
+}
+
+#smoke-screen {
+    position: absolute;
+    width: 1024px;
+    height: 600px;
+    left: -195px;
+    top: -90px;
+    background-color: #000000;
+    opacity: 0.5;
+}
