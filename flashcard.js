@@ -424,7 +424,7 @@ var getMessage,
         document.getElementById("nav-flag").innerHTML = getMessage("shapes");
         divanswer.style.color = "#996600";
         divanswer.innerHTML = this.deckAnswer[this.cardCount];
-        alert(this.cardCount);
+       
        
         divanswer1.style.color = "#996600";//change
         divanswer1.innerHTML = this.deckAnswer[this.cardCount + offset];//change
@@ -850,6 +850,9 @@ var getMessage,
       divanswer1.style.color = "#996600";
      divanswer2.style.color = "#996600";
       this.PauseAnswer();
+     
+       soundcount++;
+    this.PauseRightAnswer();
     
     
       
@@ -875,31 +878,41 @@ var getMessage,
             }
             
            question = this.cardCount;
-           id = "readQuestion" + this.cardSet + question;
-
+           this.id = "readQuestion"  + question;
            
-            this.readQuestion = new GameSound(id, "audio/en_rq" + question + ".mp3", "auto", false);
-
-
-            this.readQuestion.play();
-             var playOption2 = document.getElementById('readQuestion' +this.cardSet + question);
+         
+            this.readQuestion = new GameSound(this.id, "audio/en_rq" + question + ".mp3", "auto", false);
+           
+                if( ($("instruction_music").hasClass('oninstruction_music'))){
+                      document.getElementById(this.id).volume = 1;
+                }else{
+                     document.getElementById(this.id).volume = 0; 
+                }
+           
+             var playOption2 = document.getElementById(this.id);
            
 
             playOption2.addEventListener('ended', PlayOptions);
-
+            
+             this.readQuestion.play(); 
             //document.getElementById("card-flip").setAttribute("id", "card-graphic");
-        } else {
+        } 
+            
+            else {
             this.endGame();
         }
+       
+        
     };
-
+ 
     /**
      * FlashCards.wrongButtonClicked() plays audio sounds, increments wrongCount and calls flipCard()
      * @private
      */
     FlashCards.prototype.wrongButtonClicked = function() {
-         var me =this.shapeAnswer[this.cardCount];
-         alert(me);
+     
+      
+      
          this.PauseAnswer();
            (pathlan == "en") ? this.wrongAnswer = new GameSound("wrongAnswer","audio/en_you_got_it_wrong.mp3", "auto", false) :
                 this.wrongAnswer = new GameSound("wrongAnswer", "audio/ny_false.mp3", "auto", false);  
@@ -908,7 +921,7 @@ var getMessage,
          this.wrongAnswer.play();
              
             $("#wrongAnswer").bind('ended',function(){
-               playRightAnswer("wrongAnswer");
+               playRightAnswer();
          
             });
          
@@ -920,30 +933,39 @@ var getMessage,
         this.buttonClickSound.play();
         //this.flipCard();
     };
- function playRightAnswer(wrongAnswer){
-      
-              playOptionsArray++;
-              
-              
-             
-                var responseAns = Array("audio/en_the_correct_answer_is.mp3","audio/en_ra0.mp3");
+ function playRightAnswer(){
+            
+            if(document.getElementById("wrongAnswer") || document.getElementById("correctAnswer")){
+                   new GameSound("playRightAns","audio/en_you_got_it_wrong.mp3",  false);
+             new GameSound("playRightAns1","audio/en_you_got_it_wrong.mp3",  false);
+                var responseAns = Array("audio/en_the_correct_answer_is.mp3","audio/en_ra"+soundcount+".mp3");
                 
-                var playlist = responseAns.lenght;
-                if(playOptionsArray > playlist){
-                    playOptionsArray =0;
-                }else{
-                     var playNext = document.getElementById(wrongAnswer);
-                           playNext.src = responseAns[playOptionsArray-1];
+               
+                
+               
+               
+                     var playNext = document.getElementById("playRightAns");
+                           playNext.src = responseAns[0];
                            playNext.play();
-                    
+                    $("#playRightAns").bind('ended',function(){
+                      var playNext1 = document.getElementById("playRightAns1");
+                           playNext1.src = responseAns[1];
+                           playNext1.play();
+                    });
                   
                     
+            }else{
+                
+            }
+             
+              
+          
                       
                    
                 }
-            }
+            
              
-             
+        
     /**
      * FlashCards.rightButtonClicked() plays audio sounds, increments rightCount and calls flipCard()
      * @private
@@ -954,7 +976,7 @@ var getMessage,
                 this.correctAnswer = new GameSound("correctAnswer", "audio/en_you_got_it_right.mp3", "auto", false);
         this.correctAnswer.play();
 
-        this.correctAnswer.play();
+        //this.correctAnswer.play();
 
         this.rightAnswerSound.play();
         this.buttonClickSound.play();
@@ -965,8 +987,8 @@ var getMessage,
         document.getElementById("score-number").innerHTML = this.rightCount;
         document.getElementById("score-number").innerHTML = this.rightCount;
         
-        $("#correctAnswer").bind('ended',function(){
-            playRightAnswer("correctAnswer"); 
+      $("#correctAnswer").bind('ended',function(){
+            playRightAnswer(); 
         });
         
     };
@@ -1091,27 +1113,70 @@ onClicked() restarts current game and calls clear()
         }, false);
         
         //toggle sound off/on
-        
+       
          var instruction_music = document.getElementById("instruction_music");
-         instruction_music.addEventListener('click', function() {
-          
+             instruction_music.addEventListener('click',  MuteAudio);
+               
+    
+       
+        
+        function MuteAudio(){
+                     
       if( ($(this).hasClass('oninstruction_music'))){
-           var v = document.getElementById('playquestion');
-          v.volume=0;
           
+          if( document.getElementById( "readQuestion"  + question)){
+               var muteques = document.getElementById( "readQuestion"  + question);
+          muteques.volume=0;  
+          }else{
+              
+               document.getElementById('playquestions').volume =0;
+          }
+         
+//         var correctAns = document.getElementById('correctAnswer');
+//         correctAns.volume=0;
+//          var wrongAns1 = document.getElementById('correctAnswer');
+//         wrongAns1.volume=1;
+         var v = document.getElementById('playquestions');
+           var v = document.getElementById('playquestions');
+          v.volume=0;
+          if( document.getElementById('playRightAns')){
+                 
+              var Ans = document.getElementById('playRightAns');
+            Ans.volume=0; 
+          }else if( document.getElementById('playRightAns1')){
+               var Ans1 = document.getElementById('playRightAns1');
+            Ans1.volume=0;  
+          }
+             
+         
          
           $(this).addClass('offinstruction_music').removeClass('oninstruction_music');
       } else{
-           
-          
-           var v = document.getElementById('playquestion');
-            v.volume=1;
+//             var correctAns1 = document.getElementById('correctAnswer');
+//         correctAns1.volume=1;
+//          var wrongAns1 = document.getElementById('correctAnswer');
+//         wrongAns1.volume=1;
+           if( document.getElementById( "readQuestion"  + question)){
+               var muteques1 = document.getElementById( "readQuestion"  + question);
+          muteques1.volume=1;  
+          }else{
+              
+               document.getElementById('playquestions').volume =1;
+          }
+            
+            if( document.getElementById('playRightAns')){
+              var vAns = document.getElementById('playRightAns');
+            vAns.volume=1; 
+          }else if( document.getElementById('playRightAns1')){
+               var vAns1 = document.getElementById('playRightAns1');
+            vAns1.volume=1;  
+          }
           $(this).addClass('oninstruction_music').removeClass('offinstruction_music');
       }
     
+           
             
-            
-        }, false);
+       
         
          var background_music = document.getElementById("background_music");
          background_music.addEventListener('click', function() {
@@ -1126,9 +1191,11 @@ onClicked() restarts current game and calls clear()
           
       }
      
-         
-            
-        }, false);
+          }, false);
+               
+            }    
+        
+      
         
         document.getElementById("wrong-button").addEventListener('click', function() {
             self.wrongButtonClicked();
@@ -1144,22 +1211,22 @@ onClicked() restarts current game and calls clear()
         }, false);
         document.getElementById("help-close").addEventListener('click', function() {
             self.helpCloseClicked();
-            (pathlan == "en") ? this.playquestion = new GameSound("playquestion", "audio/en_rq0.mp3", false) :
-                    this.playquestion = new GameSound("playquestion", "audio/ny_option1.mp3", false);
+            (pathlan == "en") ? this.playquestion = new GameSound("playquestions", "audio/en_rq0.mp3", false) :
+                    this.playquestion = new GameSound("playquestions", "audio/ny_option1.mp3", false);
               document.getElementById("right-button").style.display = "none";
             this.playquestion.play();
             document.getElementById("instructions").pause();
 
          
 
-            var playedquestion = document.getElementById('playquestion');
+            var playedquestion = document.getElementById('playquestions');
            
 
             playedquestion.addEventListener('ended', PlayOptions);
 
            
           
-           
+          
 
 
             document.getElementById("sound-intro").play();
@@ -1170,6 +1237,7 @@ onClicked() restarts current game and calls clear()
     
     
     function AudioArray(PlayOptionsAnswer){
+         
           var topArrtcard = divanswer;
    
       
@@ -1178,34 +1246,31 @@ onClicked() restarts current game and calls clear()
          if(topArrtstyle === "-50px"){
           
         
-         PlayOptionsAnswer = Array("audio/en_option1.mp3","audio/en_ra0.mp3","audio/en_option2.mp3","audio/en_ra1.mp3",
+         PlayOptionsAnswer = Array("audio/en_option1.mp3","audio/en_ra"+soundcount+".mp3","audio/en_option2.mp3","audio/en_ra1.mp3",
           "audio/en_option3.mp3","audio/en_ra2.mp3");
         
         }else if (topArrtstyle === "1px"){
              
-              PlayOptionsAnswer = Array("audio/en_option1.mp3","audio/en_ra2.mp3","audio/en_option2.mp3","audio/en_ra0.mp3",
+              PlayOptionsAnswer = Array("audio/en_option1.mp3","audio/en_ra2.mp3","audio/en_option2.mp3","audio/en_ra"+soundcount+".mp3",
           "audio/en_option3.mp3","audio/en_ra1.mp3");
         }else if(topArrtstyle === "50px"){
             
             PlayOptionsAnswer = Array("audio/en_option1.mp3","audio/en_ra1.mp3","audio/en_option2.mp3","audio/en_ra2.mp3",
-          "audio/en_option3.mp3","audio/en_ra0.mp3");
+          "audio/en_option3.mp3","audio/en_ra"+soundcount+".mp3");
         }
       return PlayOptionsAnswer;
     };
     
   
      function PlayOptions() {
-         
+         new GameSound("playquestion", "audio/en_rq0.mp3", false);
         var newAudioArray = new Array();
         newAudioArray = AudioArray();
          
          
       
            current++;
-          
-           soundcount++;
-          // var soundcountoffset =soundcount - 7;
-           
+       
            
             
         
@@ -1262,7 +1327,7 @@ onClicked() restarts current game and calls clear()
             
             
         }else{
-             this.PlayOptionsAnswer =  document.getElementById("playquestion");
+             this.PlayOptionsAnswer =  document.getElementById("playquestions");
              this.PlayOptionsAnswer.src = newAudioArray[current -1];
         
              
@@ -1274,44 +1339,55 @@ onClicked() restarts current game and calls clear()
             
         }
         
-      
-        
-      
-     
+   
         
        $(document).ready(function(){
            
        
        });
-       
-       
-     
-
-          
+      
             } 
-            
+            //Pause Audio on cardclick
            FlashCards.prototype.PauseAnswer = function (){
+           
+             this.Pausequestion =  document.getElementById(this.id);
+             if(this.Pausequestion == null){
+                 
+             }else{
+                  this.Pausequestion.pause();
+             }
+            
+           
              
-             this.Playquestion =  document.getElementById(id);
-                 this.PlayOptionsAnswer =  document.getElementById("playquestion");
+                 this.PlayOptionsAnswer =  document.getElementById("playquestions");
                   this.PlayOptionsAnswer.pause();
                  
                   current = 0;
                   
-                  if(id === undefined){
-                      
-                  }else{
-                       this.Playquestion.pause();
-                  }
+                 
             };
                FlashCards.prototype.PauseRightAnswer = function (){
-             
-             this.PauseRightAnswer =  document.getElementById("correctAnswer");
-                 this.PauseRightAnswer1 =  document.getElementById("wrongAnswer");
-                  this.PauseRightAnswer1.pause();
-                  // this.PlayOptionsAnswer.pause();
-                 
+                   
+                   
+            if( document.getElementById('playRightAns')){
+               var vAns = document.getElementById('playRightAns');
+            vAns.pause(); 
+            vAns.currentTime =0;
+          
+          }else if( document.getElementById('playRightAns1')){
+               var vAns1 = document.getElementById('playRightAns1');
+            vAns1.pause();
+             vAns1.currentTime =0;
+          }
+             else{
+              
+           }
+            
                 
+               
+                 
+                $("#wrongAnswer").remove();
+                  $("#correctAnswer").remove();
             };
 
     /**
@@ -1385,7 +1461,7 @@ onClicked() restarts current game and calls clear()
         this.adventureThemeSound.play();
         this.setSplashScreenEventListeners();
         license_init("license", "splash-screen");
-        // alert(pathlan);//  full reading what is being passed
+        
     };
 
     window.addEventListener('load', function() {
